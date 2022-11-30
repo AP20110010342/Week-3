@@ -1,0 +1,99 @@
+1)
+%{
+%}
+
+%%
+[aeiouAEIOU] printf("\tIs a consonant\t");
+[a-zA-Z] printf("\tIs a vowel\t");
+%%
+
+main() {
+  printf("Enter a string: ");
+  yylex();
+}
+
+2)
+
+%{
+  int v = 0;
+  int c = 0;
+%}
+
+%%
+[aeiouAEIOU] v++;
+[a-zA-Z] c++;
+%%
+
+main() {
+  printf("Enter a string: ");
+  yylex();
+  printf("\nNo. of vowels = %d, No. of consonants = %d\n",v,c);
+}
+
+3)
+%{
+  int count = 0;
+%}
+
+%%
+\n count++;
+%%
+
+main() {
+  printf("Enter the string: ");
+  yylex();
+  printf("\nThe no. of lines in the string = %d\n", count);
+}
+
+4)
+%s B C D
+
+%%
+<INITIAL>1 BEGIN INITIAL;
+<INITIAL>0 BEGIN B;
+<INITIAL>\n BEGIN INITIAL; printf("String is not accepted.");
+
+<B>1 BEGIN D;
+<B>0 BEGIN C;
+<B>\n BEGIN INITIAL; printf("String is not accepted.");
+
+<C>0 BEGIN C;
+<C>1 BEGIN D;
+<C>\n BEGIN INITIAL; printf("String is accepted.");
+
+<D>0 BEGIN B;
+<D>1 BEGIN D;
+<D>\n BEGIN INITIAL; printf("String is not accepted.");
+%%
+
+main() {
+  printf("Enter a string: ");
+  yylex();
+}
+
+5)
+%s A B C
+
+%%
+<INITIAL>1 BEGIN INITIAL;
+<INITIAL>0 BEGIN A;
+<INITIAL>\n BEGIN INITIAL; printf("String is not accepted.");
+
+<A>1 BEGIN INITIAL;
+<A>0 BEGIN B;
+<A>\n BEGIN INITIAL; printf("String is not accepted.");
+
+<B>0 BEGIN C;
+<B>1 BEGIN INITIAL;
+<B>\n BEGIN INITIAL; printf("String is not accepted.");
+
+<C>0 BEGIN C;
+<C>1 BEGIN C;
+<C>\n BEGIN INITIAL; printf("String is accepted.");
+%%
+
+main() {
+  printf("Enter a string: ");
+  yylex();
+}
+
